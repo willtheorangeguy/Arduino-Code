@@ -1,2 +1,2 @@
-# Arduino-Planter
+# Arduino Planter
 Arduino Planter Code
