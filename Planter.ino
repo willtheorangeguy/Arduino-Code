@@ -18,15 +18,23 @@
 
 // forward function
 void forward(){
-  digitalWrite(ENA, HIGH);
-  digitalWrite(ENB, HIGH);
-  Serial.println("Forward");
+  digitalWrite(ENA, HIGH);   
+  digitalWrite(ENB, HIGH);   
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
+  Serial.println("Forward"); 
 }
 
 // backwards function
 void back(){
   digitalWrite(ENA, HIGH);
   digitalWrite(ENB, HIGH);
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
   Serial.println("Back");
 }
 
@@ -34,6 +42,10 @@ void back(){
 void left(){
   digitalWrite(ENA, HIGH);
   digitalWrite(ENB, HIGH);
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, HIGH);
   Serial.println("Left");
 }
 
@@ -41,6 +53,10 @@ void left(){
 void right(){
   digitalWrite(ENA, HIGH);
   digitalWrite(ENB, HIGH);
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, HIGH);
+  digitalWrite(IN4, LOW);
   Serial.println("Right");
 }
 
@@ -48,6 +64,11 @@ void right(){
 void brake(){
   digitalWrite(ENA, LOW);
   digitalWrite(ENB, LOW);
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  digitalWrite(IN3, LOW);
+  digitalWrite(IN4, LOW);
+  Serial.println("Brake");
 }
 
 void setup() {
@@ -62,12 +83,18 @@ void setup() {
 
 void loop() {
   forward();
-  delay(200);
+  delay(2000);
   right();
-  delay(350);
+  delay(222);
+  forward();
+  delay(2000);
   right();
-  delay(200);
+  delay(222);
+  forward();
+  delay(2000);
   right();
-  delay(320);
+  delay(222);
+  forward();
+  delay(2000);
   brake();
 }
