@@ -1,2 +1,2 @@
 # Arduino Code
-Arduino Code for each day of class
+Backup of code for each day's Arduino projects.
