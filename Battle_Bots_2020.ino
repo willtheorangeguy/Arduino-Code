@@ -21,6 +21,19 @@
 #define carSpeed1slow 155 //Right side speed - fast
 #define carSpeed2slow 130 //Left side speed - fast
 
+int attackstart = 0;
+int rightDistance = 0, leftDistance = 0, middleDistance = 0;
+
+// Get Distance with SONAR Sensor
+int getDistance() {
+    digitalWrite(Trig, LOW);
+    delayMicroseconds(2);
+    digitalWrite(Trig, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(Trig, LOW);
+    return (int)pulseIn(Echo, HIGH) / 58;
+}
+
 // Go Forward at a Slow Speed
 void forwardslow(){
   analogWrite(ENA, carSpeed1slow);
@@ -56,8 +69,8 @@ void back(){
 
 // Turn Left
 void left(){
-  analogWrite(ENA, carSpeed1slow);
-  analogWrite(ENB, carSpeed2slow);
+  analogWrite(ENA, carSpeed1fast);
+  analogWrite(ENB, carSpeed2fast);
   digitalWrite(IN1, LOW);
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
@@ -67,8 +80,8 @@ void left(){
 
 // Turn Right
 void right(){
-  analogWrite(ENA, carSpeed1slow);
-  analogWrite(ENB, carSpeed2slow);
+  analogWrite(ENA, carSpeed1fast);
+  analogWrite(ENB, carSpeed2fast);
   digitalWrite(IN1, HIGH);
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, HIGH);
@@ -88,14 +101,30 @@ void attack(){
   forwardslow();
   delay(20);
   right();
-  delay(2200);
+  delay(420);
   forwardslow();
-  delay(1000);
+  delay(500);
   left();
-  delay(2200);
-  forwardfast();
+  delay(420);
+  forwardfast(); 
+  delay(750);
+  attackstart = 1;
+  Serial.println("Attack!");
+}
+
+// Retreat
+void retreat(){
+  back();
   delay(2000);
-  Serial.println("stop!");
+}
+
+// Reposition
+void reposition(){
+  back();
+  delay(2000);
+  left();
+  delay(1500);
+  
 }
 
 void setup(){
@@ -104,4 +133,35 @@ void setup(){
 
 void loop() {
   attack();
+  if(LT_M){
+   Stop();
+   delay(10);
+   back();
+   delay(100);
+   right();
+   delay(1500);
+  }
+  else if(LT_R){
+   Stop();
+   delay(10);
+   back();
+   delay(100);
+   right();
+   delay(1500);
+  }
+  else if(LT_L){
+   Stop();
+   delay(10);
+   back();
+   delay(100);
+   right();
+   delay(1500);
+  }
+  else {
+   retreat();
+  }
+  while(LT_RWhite or LT_MWhite or LT_LWhite){
+   reposition();
+   attack();
+  }
 }
