@@ -181,4 +181,35 @@ void loop() {
    reposition();
    attack();
   }
+  if (LT_M)
+  {
+    Stop();
+    delay(10);
+    back();
+    delay(100);
+    right();
+    delay(1500);
+  }
+  else if (LT_R)
+  {
+    Stop();
+    delay(10);
+    back();
+    delay(100);
+    right();
+    delay(1500);
+  }
+  else (LT_L)
+  {
+    Stop();
+    delay(10);
+    back();
+    delay(100);
+    right();
+    delay(1500);
+  }
+  while (LT_RWhite or LT_MWhite or LT_LWhite){
+    attack();
+  }
+  Stop();
 }
