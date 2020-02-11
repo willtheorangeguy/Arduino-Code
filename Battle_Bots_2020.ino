@@ -32,6 +32,7 @@ int getDistance() {
     delayMicroseconds(10);
     digitalWrite(Trig, LOW);
     return (int)pulseIn(Echo, HIGH) / 58;
+    Serial.println("Got distance!");
 }
 
 // Go Forward at a Slow Speed
@@ -42,7 +43,7 @@ void forwardslow(){
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-  Serial.println("go forward!");
+  Serial.println("Go forward slowly!");
 }
 
 // Go Forward at a Fast Speed
@@ -53,7 +54,7 @@ void forwardfast(){
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-  Serial.println("go forward!");
+  Serial.println("Go forward fast!");
 }
 
 // Go Back
@@ -64,7 +65,7 @@ void back(){
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW);
-  Serial.println("go back!");
+  Serial.println("Go back!");
 }
 
 // Turn Left
@@ -75,7 +76,7 @@ void left(){
   digitalWrite(IN2, HIGH);
   digitalWrite(IN3, LOW);
   digitalWrite(IN4, HIGH);
-  Serial.println("go left!");
+  Serial.println("Go left!");
 }
 
 // Turn Right
@@ -86,14 +87,14 @@ void right(){
   digitalWrite(IN2, LOW);
   digitalWrite(IN3, HIGH);
   digitalWrite(IN4, LOW); 
-  Serial.println("go right!");
+  Serial.println("Go right!");
 } 
 
 // Stop Car
 void Stop(){
    digitalWrite(ENA, LOW);
    digitalWrite(ENB, LOW);
-   Serial.println("stop!");
+   Serial.println("Stop!");
 } 
 
 // Attack!
@@ -105,26 +106,41 @@ void attack(){
   forwardslow();
   delay(500);
   left();
-  delay(420);
+  delay(840);
   forwardfast(); 
   delay(750);
-  attackstart = 1;
-  Serial.println("Attack!");
+  Serial.println("Attacking!");
 }
 
-// Retreat
+// Retreat!
 void retreat(){
   back();
   delay(2000);
+  left();
+  delay(380);
+  forwardslow();
+  delay(200);
+  right();
+  delay(750);
+  Serial.println("Retreating!");
 }
 
-// Reposition
+// Reposition!
 void reposition(){
   back();
-  delay(2000);
+  delay(200);
   left();
   delay(1500);
-  
+  forwardslow();
+  delay(150);
+  right();
+  delay(420);
+  forwardfast();
+  delay(100);
+  right();
+  delay(420);
+  attack();
+  Serial.println("Repositioning!");
 }
 
 void setup(){
@@ -159,6 +175,7 @@ void loop() {
   }
   else {
    retreat();
+   reposition();
   }
   while(LT_RWhite or LT_MWhite or LT_LWhite){
    reposition();
