@@ -153,9 +153,9 @@ void setup(){
   Serial.begin(9600);
 }
 
-void loop() {
+void loop(){
   attack();
-  if(LT_M){
+  if (LT_MBlack){
    Stop();
    delay(10);
    back();
@@ -163,7 +163,7 @@ void loop() {
    right();
    delay(1500);
   }
-  else if(LT_R){
+  else if (LT_RBlack){
    Stop();
    delay(10);
    back();
@@ -171,7 +171,7 @@ void loop() {
    right();
    delay(1500);
   }
-  else if(LT_L){
+  else if (LT_LBlack){
    Stop();
    delay(10);
    back();
@@ -183,22 +183,22 @@ void loop() {
    retreat();
    reposition();
   }
-  while(LT_RWhite or LT_MWhite or LT_LWhite){
+  while (LT_RWhite or LT_MWhite or LT_LWhite){
     myservo.write(90);
     delay(500);
     middleDistance = getDistance();
+  }
     if (middleDistance <= 20){
       reposition();
       attack();
     }
-    else{
+    else {
       forwardslow();
       delay(100);
       reposition();
       attack();
     }
-  if (LT_M)
-  {
+  if (LT_MBlack){
     Stop();
     delay(10);
     back();
@@ -206,8 +206,7 @@ void loop() {
     right();
     delay(1500);
   }
-  else if (LT_R)
-  {
+  else if (LT_RBlack){
     Stop();
     delay(10);
     back();
@@ -215,29 +214,25 @@ void loop() {
     right();
     delay(1500);
   }
-  else (LT_L)
-  {
-    Stop();
-    delay(10);
-    back();
-    delay(100);
-    right();
-    delay(1500);
+  else if (LT_LBlack){
+   Stop();
+   delay(10);
+   back();
+   delay(100);
+   right();
+   delay(1500);
   }
   while (LT_RWhite or LT_MWhite or LT_LWhite){
     myservo.write(90);
     delay(500);
     middleDistance = getDistance();
-    if (middleDistance <= 20)
-    {
+  }
+    if (middleDistance <= 20){
       attack();
     }
-    else
-    {
+    else {
       forwardslow();
       delay(100);
       attack();
     }
-  }
-  Stop();
 }
