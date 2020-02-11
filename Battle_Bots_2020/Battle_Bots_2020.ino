@@ -1,3 +1,6 @@
+#include <Servo.h>
+Servo myservo;
+
 // Line Tracking IO Define - Black
 #define LT_RBlack !digitalRead(10)
 #define LT_MBlack !digitalRead(4)
@@ -23,6 +26,9 @@
 
 int attackstart = 0;
 int rightDistance = 0, leftDistance = 0, middleDistance = 0;
+
+int Echo = A4;
+int Trig = A5;
 
 // Get Distance with SONAR Sensor
 int getDistance() {
@@ -107,7 +113,7 @@ void attack(){
   delay(500);
   left();
   delay(840);
-  forwardfast(); 
+  forwardfast();
   delay(750);
   Serial.println("Attacking!");
 }
@@ -178,9 +184,19 @@ void loop() {
    reposition();
   }
   while(LT_RWhite or LT_MWhite or LT_LWhite){
-   reposition();
-   attack();
-  }
+    myservo.write(90);
+    delay(500);
+    middleDistance = getDistance();
+    if (middleDistance <= 20){
+      reposition();
+      attack();
+    }
+    else{
+      forwardslow();
+      delay(100);
+      reposition();
+      attack();
+    }
   if (LT_M)
   {
     Stop();
@@ -209,7 +225,19 @@ void loop() {
     delay(1500);
   }
   while (LT_RWhite or LT_MWhite or LT_LWhite){
-    attack();
+    myservo.write(90);
+    delay(500);
+    middleDistance = getDistance();
+    if (middleDistance <= 20)
+    {
+      attack();
+    }
+    else
+    {
+      forwardslow();
+      delay(100);
+      attack();
+    }
   }
   Stop();
 }
