@@ -1,238 +1,237 @@
-#include <Servo.h>
-Servo myservo;
+// Create Servo Instance
+#include <Servo.h> // call Servo libary
+Servo myservo;     // create 'myservo' instance
 
 // Line Tracking IO Define - Black
-#define LT_RBlack !digitalRead(10)
-#define LT_MBlack !digitalRead(4)
-#define LT_LBlack !digitalRead(2)
+#define LT_RBlack !digitalRead(10) // reverse and get the digital input of pin 10 and assign to a variable
+#define LT_MBlack !digitalRead(4)  // reverse and get the digital input of pin 4 and assign to a variable
+#define LT_LBlack !digitalRead(2)  // reverse and get the digital input of pin 2 and assign to a variable
 
 // Line Tracking IO Define - White
-#define LT_RWhite digitalRead(10)
-#define LT_MWhite digitalRead(4)
-#define LT_LWhite digitalRead(2)
+#define LT_RWhite digitalRead(10) // get the digital input of pin 10 and assign to a variable
+#define LT_MWhite digitalRead(4)  // get the digital input of pin 10 and assign to a variable
+#define LT_LWhite digitalRead(2)  // get the digital input of pin 10 and assign to a variable
 
 // Define Motor Driver Pins
-#define ENB 5
-#define IN1 7
-#define IN2 8
-#define IN3 9
-#define IN4 11
-#define ENA 6
+#define ENB 5  // assign pins to a variable 
+#define IN1 7  // assign pins to a variable
+#define IN2 8  // assign pins to a variable 
+#define IN3 9  // assign pins to a variable
+#define IN4 11 // assign pins to a variable
+#define ENA 6  // assign pins to a variable
 
-#define carSpeed1fast 255 //Right side speed - fast
-#define carSpeed2fast 240 //Left side speed - fast
-#define carSpeed1slow 155 //Right side speed - fast
-#define carSpeed2slow 130 //Left side speed - fast
+#define carSpeed1fast 255 // assign the fast right side speed to a variable
+#define carSpeed2fast 240 // assign the fast left side speed to a variable
+#define carSpeed1slow 155 // assign the slow right side speed to a variable
+#define carSpeed2slow 130 // assign the slow left side speed to a variable
 
-int attackstart = 0;
-int rightDistance = 0, leftDistance = 0, middleDistance = 0;
-
-int Echo = A4;
-int Trig = A5;
+// Create Variables for Measuring SONAR Distances
+int rightDistance = 0, leftDistance = 0, middleDistance = 0; // variables for the getDistance() function
+int Echo = A4; // i don't know what these ones are - look online
+int Trig = A5; //
 
 // Get Distance with SONAR Sensor
 int getDistance() {
-    digitalWrite(Trig, LOW);
-    delayMicroseconds(2);
-    digitalWrite(Trig, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(Trig, LOW);
-    return (int)pulseIn(Echo, HIGH) / 58;
-    Serial.println("Got distance!");
+    digitalWrite(Trig, LOW);              // turn off Trig
+    delayMicroseconds(2);                 // delay 2 microseconds
+    digitalWrite(Trig, HIGH);             // turn on Trig
+    delayMicroseconds(10);                // delay 10 microseconds
+    digitalWrite(Trig, LOW);              // turn off Trig
+    return (int)pulseIn(Echo, HIGH) / 58; // return the interger of the pulse from the SONAR sensor divided by 58
+    Serial.println("Got distance!");      // print program status to serial monitor
 }
 
 // Go Forward at a Slow Speed
 void forwardslow(){
-  analogWrite(ENA, carSpeed1slow);
-  analogWrite(ENB, carSpeed2slow);
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
-  Serial.println("Go forward slowly!");
+  analogWrite(ENA, carSpeed1slow);      // set right wheels to slow speed
+  analogWrite(ENB, carSpeed2slow);      // set left wheels to slow speed
+  digitalWrite(IN1, HIGH);              // turn IN1 on
+  digitalWrite(IN2, LOW);               // turn IN2 off
+  digitalWrite(IN3, LOW);               // turn IN3 off
+  digitalWrite(IN4, HIGH);              // turn IN4 on
+  Serial.println("Go forward slowly!"); // print program status to serial monitor
 }
 
 // Go Forward at a Fast Speed
 void forwardfast(){
-  analogWrite(ENA, carSpeed1fast);
-  analogWrite(ENB, carSpeed2fast);
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
-  Serial.println("Go forward fast!");
+  analogWrite(ENA, carSpeed1fast);    // set right wheels to fast speed
+  analogWrite(ENB, carSpeed2fast);    // set left wheels to fast speed
+  digitalWrite(IN1, HIGH);            // turn IN1 on
+  digitalWrite(IN2, LOW);             // turn IN2 off
+  digitalWrite(IN3, LOW);             // turn IN3 off
+  digitalWrite(IN4, HIGH);            // turn IN4 on
+  Serial.println("Go forward fast!"); // print program status to serial monitor
 }
 
 // Go Back
 void back(){
-  analogWrite(ENA, carSpeed1fast);
-  analogWrite(ENB, carSpeed2fast);
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW);
-  Serial.println("Go back!");
+  analogWrite(ENA, carSpeed1fast); // set right wheels to fast speed
+  analogWrite(ENB, carSpeed2fast); // set left wheels to fast speed
+  digitalWrite(IN1, LOW);          // turn IN1 off
+  digitalWrite(IN2, HIGH);         // turn IN2 on
+  digitalWrite(IN3, HIGH);         // turn IN3 on
+  digitalWrite(IN4, LOW);          // turn IN4 off
+  Serial.println("Go back!");      // print program status to serial monitor
 }
 
 // Turn Left
 void left(){
-  analogWrite(ENA, carSpeed1fast);
-  analogWrite(ENB, carSpeed2fast);
-  digitalWrite(IN1, LOW);
-  digitalWrite(IN2, HIGH);
-  digitalWrite(IN3, LOW);
-  digitalWrite(IN4, HIGH);
-  Serial.println("Go left!");
-}
+  analogWrite(ENA, carSpeed1fast); // set right wheels to fast speed
+  analogWrite(ENB, carSpeed2fast); // set left wheels to fast speed
+  digitalWrite(IN1, LOW);          // turn IN1 off
+  digitalWrite(IN2, HIGH);         // turn IN2 on
+  digitalWrite(IN3, LOW);          // turn IN3 off
+  digitalWrite(IN4, HIGH);         // turn IN4 on
+  Serial.println("Go left!");      // print program status to serial monitor
 
 // Turn Right
 void right(){
-  analogWrite(ENA, carSpeed1fast);
-  analogWrite(ENB, carSpeed2fast);
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
-  digitalWrite(IN3, HIGH);
-  digitalWrite(IN4, LOW); 
-  Serial.println("Go right!");
+  analogWrite(ENA, carSpeed1fast); // set right wheels to fast speed
+  analogWrite(ENB, carSpeed2fast); // set left wheels to fast speed
+  digitalWrite(IN1, HIGH);         // turn IN1 on
+  digitalWrite(IN2, LOW);          // turn IN2 off
+  digitalWrite(IN3, HIGH);         // turn IN3 on
+  digitalWrite(IN4, LOW);          // turn IN4 off
+  Serial.println("Go right!");     // print program status to serial monitor
 } 
 
 // Stop Car
 void Stop(){
-   digitalWrite(ENA, LOW);
-   digitalWrite(ENB, LOW);
-   Serial.println("Stop!");
+   digitalWrite(ENA, LOW);  // turn right wheels off
+   digitalWrite(ENB, LOW);  // turn left wheels off
+   Serial.println("Stop!"); // print program status to serial monitor
 } 
 
 // Attack!
 void attack(){
-  forwardslow();
-  delay(20);
-  right();
-  delay(420);
-  forwardslow();
-  delay(500);
-  left();
-  delay(840);
-  forwardfast();
-  delay(750);
-  Serial.println("Attacking!");
+  forwardslow();                // call the 'forwardslow()' function
+  delay(20);                    // delay for 20 milliseconds
+  right();                      // call the 'right()' function
+  delay(420);                   // delay for 420 milliseconds
+  forwardslow();                // call the 'forwardslow()' function
+  delay(500);                   // delay for 500 milliseconds
+  left();                       // call the 'left()' function
+  delay(840);                   // delay for 840 milliseconds
+  forwardfast();                // call the 'forwardfast()' function
+  delay(750);                   // delay for 750 milliseconds
+  Serial.println("Attacking!"); // print program status to serial monitor
 }
 
 // Retreat!
 void retreat(){
-  back();
-  delay(2000);
-  left();
-  delay(380);
-  forwardslow();
-  delay(200);
-  right();
-  delay(750);
-  Serial.println("Retreating!");
+  back();                        // call the 'back()' function
+  delay(2000);                   // delay for 2000 milliseconds
+  left();                        // call the 'left()' function
+  delay(380);                    // delay for 380 milliseconds
+  forwardslow();                 // call the 'forwardslow()' function
+  delay(200);                    // delay for 200 milliseconds
+  right();                       // call the 'right()' function
+  delay(750);                    // delay for 750 milliseconds
+  Serial.println("Retreating!"); // print program status to serial monitor
 }
 
 // Reposition!
 void reposition(){
-  back();
-  delay(200);
-  left();
-  delay(1500);
-  forwardslow();
-  delay(150);
-  right();
-  delay(420);
-  forwardfast();
-  delay(100);
-  right();
-  delay(420);
-  attack();
-  Serial.println("Repositioning!");
+  back();                           // call the 'back()' function
+  delay(200);                       // delay for 200 milliseconds
+  left();                           // call the 'left()' function
+  delay(1500);                      // delay for 1500 milliseconds
+  forwardslow();                    // call the 'forwardslow()' function
+  delay(150);                       // delay for 150 milliseconds
+  right();                          // call the 'right()' function
+  delay(420);                       // delay for 420 milliseconds
+  forwardfast();                    // call the 'forwardfast()' function
+  delay(100);                       // delay for 100 milliseconds
+  right();                          // call the 'right()' function
+  delay(420);                       // delay for 420 milliseconds
+  attack();                         // call the 'attack()' function
+  Serial.println("Repositioning!"); // print program status to serial monitor
 }
 
 void setup(){
-  Serial.begin(9600);
+  Serial.begin(9600); // i dont know what this one does either
 }
 
 void loop(){
-  attack();
-  if (LT_MBlack){
-   Stop();
-   delay(10);
-   back();
-   delay(100);
-   right();
-   delay(1500);
+  attack();       // call the 'attack()' function
+  if (LT_MBlack){ // start an if statement that will run if LT_MBlack reads black
+    Stop();       // call the 'stop()' function
+    delay(10);    // delay for 10 milliseconds
+    back();       // call the 'back()' function
+    delay(100);   // delay for 100 milliseconds
+    right();      // call the 'right()' function
+    delay(1500);  // delay for 1500 milliseconds
   }
-  else if (LT_RBlack){
-   Stop();
-   delay(10);
-   back();
-   delay(100);
-   right();
-   delay(1500);
+  else if (LT_RBlack){ // start an else if statement that will run if LT_RBlack reads black
+    Stop();            // call the 'stop()' function
+    delay(10);         // delay for 10 milliseconds
+    back();            // call the 'back()' function
+    delay(100);        // delay for 100 milliseconds
+    right();           // call the 'right()' function
+    delay(1500);       // delay for 1500 milliseconds
   }
-  else if (LT_LBlack){
-   Stop();
-   delay(10);
-   back();
-   delay(100);
-   right();
-   delay(1500);
+  else if (LT_LBlack){ // start an else if statement that will run if LT_LBlack reads black
+    Stop();            // call the 'stop()' function
+    delay(10);         // delay for 10 milliseconds
+    back();            // call the 'back()' function
+    delay(100);        // delay for 100 milliseconds
+    right();           // call the 'right()' function
+    delay(1500);       // delay for 1500 milliseconds
   }
-  else {
-   retreat();
-   reposition();
+  else {         // start an else statement if none of the above if statements were run
+   retreat();    // call the 'retreat()' function
+   reposition(); // call the 'reposition()' function
   }
-  while (LT_RWhite or LT_MWhite or LT_LWhite){
-    myservo.write(90);
-    delay(500);
-    middleDistance = getDistance();
+  while (LT_RWhite or LT_MWhite or LT_LWhite){ // start a while loop if LT_RWhite or LT_MWhite or LT_LWhite read white
+    myservo.write(90);                         // turn the Servo to 90 degrees
+    delay(500);                                // delay for 500 milliseconds
+    middleDistance = getDistance();            // create a variable called 'middleDistance' to represent the function 'getDistance()'
   }
-    if (middleDistance <= 20){
-      reposition();
-      attack();
+    if (middleDistance <= 20){ // start an if statement that will run if the 'middleDistance' varable is equal or greater than 20
+      reposition();            // call the 'reposition()' function
+      attack();                // call the 'attack()' function
     }
-    else {
-      forwardslow();
-      delay(100);
-      reposition();
-      attack();
+    else {           // start an else statement if none of the above statements are run
+      forwardslow(); // call the 'forwardslow()' function
+      delay(100);    // delay for 100 milliseconds
+      reposition();  // call the 'reposition()' function
+      attack();      // call the 'attack()' function
     }
-  if (LT_MBlack){
-    Stop();
-    delay(10);
-    back();
-    delay(100);
-    right();
-    delay(1500);
+  if (LT_MBlack){ // start an if statement that will run if LT_MBlack reads black
+    Stop();       // call the 'stop()' function
+    delay(10);    // delay for 10 milliseconds
+    back();       // call the 'back()' function
+    delay(100);   // delay for 100 milliseconds
+    right();      // call the 'right()' function
+    delay(1500);  // delay for 1500 milliseconds
   }
-  else if (LT_RBlack){
-    Stop();
-    delay(10);
-    back();
-    delay(100);
-    right();
-    delay(1500);
+  else if (LT_RBlack){ // start an else if statement that will run if LT_RBlack reads black
+    Stop();            // call the 'stop()' function
+    delay(10);         // delay for 10 milliseconds
+    back();            // call the 'back()' function
+    delay(100);        // delay for 100 milliseconds
+    right();           // call the 'right()' function
+    delay(1500);       // delay for 1500 milliseconds
   }
-  else if (LT_LBlack){
-   Stop();
-   delay(10);
-   back();
-   delay(100);
-   right();
-   delay(1500);
+  else if (LT_LBlack){ // start an else if statement that will run if LT_LBlack reads black
+    Stop();            // call the 'stop()' function
+    delay(10);         // delay for 10 milliseconds
+    back();            // call the 'back()' function
+    delay(100);        // delay for 100 milliseconds
+    right();           // call the 'right()' function
+    delay(1500);       // delay for 1500 milliseconds
   }
-  while (LT_RWhite or LT_MWhite or LT_LWhite){
-    myservo.write(90);
-    delay(500);
-    middleDistance = getDistance();
+  while (LT_RWhite or LT_MWhite or LT_LWhite){ // start a while loop if LT_RWhite or LT_MWhite or LT_LWhite read white
+    myservo.write(90);                         // turn the Servo to 90 degrees
+    delay(500);                                // delay for 500 milliseconds
+    middleDistance = getDistance();            // create a variable called 'middleDistance' to represent the function 'getDistance()'
   }
-    if (middleDistance <= 20){
-      attack();
+    if (middleDistance <= 20){ // start an if statement that will run if the 'middleDistance' varable is equal or greater than 20
+      attack();                // call the 'attack()' function
     }
-    else {
-      forwardslow();
-      delay(100);
-      attack();
+    else {           // start an else statement if none of the above statements are run
+      forwardslow(); // call the 'forwardslow()' function
+      delay(100);    // delay for 100 milliseconds
+      attack();      // call the 'attack()' function
     }
 }
