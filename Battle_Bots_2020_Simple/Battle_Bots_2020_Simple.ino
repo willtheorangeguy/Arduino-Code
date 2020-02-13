@@ -1,3 +1,5 @@
+
+
 // Create Servo Instance
 #include <Servo.h> // call Servo libary
 Servo myservo;     // create 'myservo' instance
@@ -27,8 +29,9 @@ Servo myservo;     // create 'myservo' instance
 
 // Create Variables for Measuring SONAR Distances
 int rightDistance = 0, leftDistance = 0, middleDistance = 0; // variables for the getDistance() function
-int Echo = A4; // variable to output the time it takes for sound waves to travel
-int Trig = A5; // variable to send the sonic bursts to be picked up by the sensor
+int attackdone = 0           ;                               // variable to check to see if the attack has been finished
+int Echo = A4;                                               // variable to output the time it takes for sound waves to travel
+int Trig = A5;                                               // variable to send the sonic bursts to be picked up by the sensor
 
 // Get Distance with SONAR Sensor
 int getDistance() {
@@ -115,6 +118,7 @@ void attack(){
   delay(840);                   // delay for 840 milliseconds
   forwardfast();                // call the 'forwardfast()' function
   delay(750);                   // delay for 750 milliseconds
+  attackdone = 1;               // let the program know the attack has been finished
   Serial.println("Attacking!"); // print program status to serial monitor
 }
 
@@ -154,49 +158,7 @@ void setup() {
 }
 
 void loop() {
-  attack();       // call the 'attack()' function
-  if (LT_MBlack){ // start an if statement that will run if LT_MBlack reads black
-    Stop();       // call the 'stop()' function
-    delay(10);    // delay for 10 milliseconds
-    back();       // call the 'back()' function
-    delay(100);   // delay for 100 milliseconds
-    right();      // call the 'right()' function
-    delay(1500);  // delay for 1500 milliseconds
-  }
-  else if (LT_RBlack){ // start an else if statement that will run if LT_RBlack reads black
-    Stop();            // call the 'stop()' function
-    delay(10);         // delay for 10 milliseconds
-    back();            // call the 'back()' function
-    delay(100);        // delay for 100 milliseconds
-    right();           // call the 'right()' function
-    delay(1500);       // delay for 1500 milliseconds
-  }
-  else if (LT_LBlack){ // start an else if statement that will run if LT_LBlack reads black
-    Stop();            // call the 'stop()' function
-    delay(10);         // delay for 10 milliseconds
-    back();            // call the 'back()' function
-    delay(100);        // delay for 100 milliseconds
-    right();           // call the 'right()' function
-    delay(1500);       // delay for 1500 milliseconds
-  }
-  else {         // start an else statement if none of the above if statements were run
-   //reposition(); // call the 'reposition()' function
-   attack();     // call the 'attack()' function
-  }
-  while (LT_RWhite or LT_MWhite or LT_LWhite){ // start a while loop if LT_RWhite or LT_MWhite or LT_LWhite read white
-    myservo.write(90);                         // turn the Servo to 90 degrees
-    delay(500);                                // delay for 500 milliseconds
-    middleDistance = getDistance();            // create a variable called 'middleDistance' to represent the function 'getDistance()'
-  }
-    if (middleDistance <= 20){ // start an if statement that will run if the 'middleDistance' varable is equal or greater than 20
-      attack();                // call the 'attack()' function
-    }
-    else {           // start an else statement if none of the above statements are run
-      forwardslow(); // call the 'forwardslow()' function
-      delay(100);    // delay for 100 milliseconds
-      reposition();  // call the 'reposition()' function
-      attack();      // call the 'attack()' function
-    }
+  attack(); // call the 'attack()' function
   if (LT_MBlack){ // start an if statement that will run if LT_MBlack reads black
     Stop();       // call the 'stop()' function
     delay(10);    // delay for 10 milliseconds
@@ -222,16 +184,7 @@ void loop() {
     delay(1500);       // delay for 1500 milliseconds
   }
   while (LT_RWhite or LT_MWhite or LT_LWhite){ // start a while loop if LT_RWhite or LT_MWhite or LT_LWhite read white
-    myservo.write(90);                         // turn the Servo to 90 degrees
-    delay(500);                                // delay for 500 milliseconds
-    middleDistance = getDistance();            // create a variable called 'middleDistance' to represent the function 'getDistance()'
+    forwardslow();
+    delay(250);
   }
-    if (middleDistance <= 20){ // start an if statement that will run if the 'middleDistance' varable is equal or greater than 20
-      attack();                // call the 'attack()' function
-    }
-    else {           // start an else statement if none of the above statements are run
-      forwardslow(); // call the 'forwardslow()' function
-      delay(100);    // delay for 100 milliseconds
-      attack();      // call the 'attack()' function
-    }
 }
