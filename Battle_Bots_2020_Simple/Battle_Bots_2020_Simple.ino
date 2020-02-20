@@ -1,5 +1,3 @@
-
-
 // Create Servo Instance
 #include <Servo.h> // call Servo libary
 Servo myservo;     // create 'myservo' instance
@@ -158,7 +156,11 @@ void setup() {
 }
 
 void loop() {
-  attack(); // call the 'attack()' function
+  forwardfast(); // call the 'attack()' function
+  delay(888);
+  while (LT_RWhite or LT_MWhite or LT_LWhite){ // start a while loop if LT_RWhite or LT_MWhite or LT_LWhite read white
+    forwardfast();
+    delay(250);
   if (LT_MBlack){ // start an if statement that will run if LT_MBlack reads black
     Stop();       // call the 'stop()' function
     delay(10);    // delay for 10 milliseconds
@@ -183,8 +185,5 @@ void loop() {
     right();           // call the 'right()' function
     delay(1500);       // delay for 1500 milliseconds
   }
-  while (LT_RWhite or LT_MWhite or LT_LWhite){ // start a while loop if LT_RWhite or LT_MWhite or LT_LWhite read white
-    forwardslow();
-    delay(250);
   }
 }
