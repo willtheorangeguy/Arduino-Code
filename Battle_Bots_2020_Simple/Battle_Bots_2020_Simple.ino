@@ -106,14 +106,6 @@ void Stop(){
 
 // Attack!
 void attack(){
-  forwardslow();                // call the 'forwardslow()' function
-  delay(20);                    // delay for 20 milliseconds
-  right();                      // call the 'right()' function
-  delay(420);                   // delay for 420 milliseconds
-  forwardslow();                // call the 'forwardslow()' function
-  delay(500);                   // delay for 500 milliseconds
-  left();                       // call the 'left()' function
-  delay(840);                   // delay for 840 milliseconds
   forwardfast();                // call the 'forwardfast()' function
   delay(750);                   // delay for 750 milliseconds
   attackdone = 1;               // let the program know the attack has been finished
@@ -156,11 +148,11 @@ void setup() {
 }
 
 void loop() {
-  forwardfast(); // call the 'attack()' function
-  delay(888);
+  attack(); // call the 'attack()' function
   while (LT_RWhite or LT_MWhite or LT_LWhite){ // start a while loop if LT_RWhite or LT_MWhite or LT_LWhite read white
-    forwardfast();
+    forwardfast();                             // call the 'forward()' function
     delay(250);
+  }
   if (LT_MBlack){ // start an if statement that will run if LT_MBlack reads black
     Stop();       // call the 'stop()' function
     delay(10);    // delay for 10 milliseconds
@@ -184,6 +176,5 @@ void loop() {
     delay(100);        // delay for 100 milliseconds
     right();           // call the 'right()' function
     delay(1500);       // delay for 1500 milliseconds
-  }
   }
 }
