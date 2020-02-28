@@ -1,32 +1,38 @@
 #include <IRremote.h>
 #include <IRremoteInt.h>
 
-// Define Pins
-#define RECV_PIN 12          // infared signal receiver
-#define LED 13               // define LED pin
-#define L 16738455           // sequence given to IR receiver
-#define UNKNOWN_L 1386468383 // repeat sequence
+#define RECV_PIN  12 //Infrared signal receiving pin
+#define LED       13 //define LED pin
+#define L         16738455 //Sequence given to IR receiver
+#define UNKNOWN_L 1386468383 //Repeat Sequence
 
-// Variables
-bool state = LOW;  // create a boolean value
-unsigned long val; // extended variable for long sequence of numbers
+bool state = LOW;
+unsigned long val; //extended variable for long sequences of numbers
 
-// Initialize IR Remote Library
-IRrecv irrecv(RECV_PIN); // initialize library
-decode_results results;  // define structure type and store as results
+IRrecv irrecv(RECV_PIN); //initializing library
+decode_results results; //Define structure type, store as "results"
 
-// Redefine the Boolean as Opposite
-void stateChange (){
-    state = !state;
-    digitalWrite(LED, state);
+void stateChange(){
+  state = !state;
+  digitalWrite(LED, state);
 }
 
 void setup() {
-    pinMode(LED, OUTPUT); // initialize LED as an OUTPUT
-    Serial.begin(9600);   // set serial data rate
-    irrecv.enableIRIn();  // start receiving
+  pinMode(LED, OUTPUT); //initialize LED as an output
+  Serial.begin(9600);
+  irrecv.enableIRIn(); //Start receiving
 }
 
 void loop() {
-    if (irrecv.decode)
+  if (irrecv.decode(&results)){
+    val = results.value;
+    Serial.println(val);
+    irrecv.resume();  //receive the next value
+    delay(150);
+    if(val == L || val == UNKNOWN_L){  
+      stateChange();
+    }
+   
+  }
+
 }
