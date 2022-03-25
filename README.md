@@ -36,7 +36,7 @@
 
 ## Download
 
-You can **[download](https://github.com/willtheorangeguy/Arduino-Code/releases/latest) the source code and projects** to run the scripts from the command line on Windows, macOS and Linux. **This will require [Python](https://www.python.org/downloads/).**
+You can **[download](https://github.com/willtheorangeguy/Arduino-Code/archive/refs/heads/master.zip) the source code and projects** to run the scripts from the command line on Windows, macOS and Linux. **This will require the [Arduino IDE](https://www.arduino.cc/en/software).**
 
 ## Credits
 
