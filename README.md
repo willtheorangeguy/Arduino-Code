@@ -46,7 +46,7 @@ This software uses the following open source packages, projects, services or web
 <table>
   <tr>
     <th align="center"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="150" height="150" alt="GitHub"/></th>
-    <th align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arduino_Logo.svg/720px-Arduino_Logo.svg.png" width="150" height="150" alt="Arduino"/></th>
+    <th align="center"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Arduino_Logo.svg/720px-Arduino_Logo.svg.png" width="200" height="150" alt="Arduino"/></th>
   </tr>
   <tr>
     <td align="center">GitHub</td>
