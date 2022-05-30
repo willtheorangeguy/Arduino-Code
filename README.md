@@ -1,7 +1,5 @@
 <!-- Logo -->
 <h1 align="center">
-  <img src="https://jmarsico.github.io/rsma2019/assets/arduino_board.png" height="250px" width="400px" alt="Computer Studies Code">
-  <br>
   Arduino Code
   <br>
 </h1>
