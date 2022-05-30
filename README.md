@@ -5,7 +5,7 @@
 </h1>
 
 <!-- Copy -->
-<h4 align="center">A backup of code for each day's Arduino projects.</h4>
+<h4 align="center">An archive of code for each day's Arduino projects.</h4>
 
 <!-- Badges -->
 <div align="center">
